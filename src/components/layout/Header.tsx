@@ -5,6 +5,7 @@ import { LogOut, MenuIcon, Search, ShoppingBag } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import HeaderSearchBar from "./HeaderSearchBar";
 
 const AnnouncementBar = () => {
 	return (
@@ -84,7 +85,8 @@ const Header = ({user, categorySelector}:HeaderProps) => {
 
 						<div className="flex flex-1 justify-end items-center gap-2 sm:gap-4 ">
 							<button className="text-gray-500 hover:text-gray-900 sm:block">
-								<Search className="h-5 w-5 sm:h-6 sm:w-6" />
+								{/* <Search className="h-5 w-5 sm:h-6 sm:w-6" /> */}
+								<HeaderSearchBar/>
 							</button>
 
 							{user ? (
