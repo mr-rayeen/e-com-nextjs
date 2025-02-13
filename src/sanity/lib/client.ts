@@ -45,3 +45,9 @@ export const searchProducts = async (searchQuery: string)=>{
   const products = await sanityFetch({query, params: {searchQuery}});
   return products.data as Product[];
 }
+
+export const getProductById = async (id: string) => {
+  const query = `*[_type == "product" && _id == $id][0]`
+  const product = await sanityFetch({ query, params: { id } });
+  return product.data as Product;
+}
