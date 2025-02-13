@@ -21,6 +21,7 @@ model User {
 
   createdAt DateTime @default(now())
   sessions Session[]
+  cart Cart?
 }
 
 model Session {
@@ -29,4 +30,26 @@ model Session {
   expiresAt DateTime
 
   user      User     @relation(references: [id], fields: [userId], onDelete: Cascade)
+}
+
+model CartLineItems{
+  id String @id
+  sanityProductId String
+  quantity Int
+
+  title String
+  price Float
+  image String
+
+  cartId String 
+  cart Cart @relation(references: [id], fields: [cartId], onDelete: Cascade)
+}
+
+model Cart{
+  id String @id
+
+  userId Int? @unique
+  user User? @relation(references: [id],fields: [userId], onDelete: Cascade)
+
+  items CartLineItems[]
 }
