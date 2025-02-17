@@ -11,6 +11,7 @@ import secureIcon from "@/src/assets/icons8-protect.gif"
 import truckIcon from "@/src/assets/truck.gif"
 import returnIcon from "@/src/assets/return.png";
 import moneyIcon from "@/src/assets/money.gif";
+import { createCheckoutSession } from "@/actions/stripe-actions";
 
 
 const Cart = () => {
@@ -26,6 +27,7 @@ const Cart = () => {
 		isLoading,
 		cartLoading,
 		getTotalPrice,
+		cartId,
 	} = useCartStore(
 		useShallow((state) => ({
 			setLoaded: state.setLoaded,
@@ -39,6 +41,7 @@ const Cart = () => {
 			isLoading: state.isLoading,
 			cartLoading: state.cartLoading,
 			getTotalPrice: state.getTotalPrice,
+			cartId: state.cartId,
 		}))
 	);
 	
@@ -54,12 +57,28 @@ const Cart = () => {
 		initCart();
 	}, []);
 
+	const [loadingProceed, setLoadingProceed] = useState<boolean>(false);
+
+	const handleProceedToCheckout = async () => {
+		if (!cartId || loadingProceed) {
+			return;
+		}
+
+		setLoadingProceed(true);
+		const checkoutUrl = await createCheckoutSession(cartId);
+		if (!checkoutUrl) {
+			return;
+		}
+		window.location.href = checkoutUrl;
+		setLoadingProceed(false);
+	}
+
 	const totalPrice = getTotalPrice();
 
 	const freeShippingAmount = 15; //$15 for free shipping
 	const remainingForFreeShipping = useMemo(() => {
 		return Math.max(0, freeShippingAmount - totalPrice)
-	}, [totalPrice])
+	}, [totalPrice]);
 	
 
 	interface CartItem {
@@ -377,8 +396,18 @@ const Cart = () => {
 													)}
 												</span>
 											</div>
-											<button className="w-full justify-center bg-gradient-to-r from-red-600 to-yellow-600 hover:from-red-500 hover:to-yellow-500 text-white py-3 font-bold rounded-full hover:scale-95  transition-all duration-200">
-												Proceed to Checkout
+												<button className="w-full justify-center bg-gradient-to-r from-red-600 to-yellow-600 hover:from-red-500 hover:to-yellow-500 text-white py-3 font-bold rounded-full hover:scale-95  transition-all duration-200"
+													onClick={handleProceedToCheckout}
+													disabled={loadingProceed}
+												>
+													{loadingProceed ? (
+														<div className="flex items-center justify-center gap-2">
+															<Loader2 className="animate-spin h-4 w-4" />
+															<span>
+																Processing...
+															</span>
+														</div>
+													) : 'Proceed to Checkout'}
 											</button>
 											<div className="flex items-center justify-between mt-4 space-y-2 text-gray-500">
 												<div className="flex items-center gap-2 text-xs">
