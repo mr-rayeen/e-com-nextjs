@@ -87,9 +87,17 @@ export const updateCartItem = async(
 ) => {
     const cart = await getOrCreateCart(cartId);
 
+    // console.log("Cart:", cart);
+    // console.log('Sanity ID:',sanityProductId)
     const existingItem = cart.items.find(
-        (item) => item.sanityProductId === sanityProductId
+		(item) =>
+			item.sanityProductId === sanityProductId ||
+			item.id === sanityProductId
     );
+
+    // console.log('Request Aii for delete');
+    // console.log("Existing Item:", existingItem);
+    // console.log("Data:", data);
 
     if (existingItem) {
         //Update Quantity
@@ -99,6 +107,7 @@ export const updateCartItem = async(
                     id: existingItem.id,
                 },
             })
+            console.log("Deleted");
         } else if (data.quantity && data.quantity > 0) {
             await prisma.cartLineItems.update({
                 where: {
@@ -108,6 +117,7 @@ export const updateCartItem = async(
                     quantity: data.quantity,
                 }
             })
+            console.log("Updated");
         }
     } else if (data.quantity && data.quantity > 0) {
         await prisma.cartLineItems.create({
@@ -121,6 +131,7 @@ export const updateCartItem = async(
                 image: data.image || '',
             }
         });
+        console.log("Added!");
     }
     revalidatePath("/");
     return getOrCreateCart(cartId);

@@ -9,11 +9,16 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@heroui/react": "^2.6.14",
+    "@heroui/skeleton": "^2.2.6",
+    "@heroui/system": "^2.4.7",
+    "@heroui/theme": "^2.4.6",
     "@oslojs/crypto": "^1.0.1",
     "@oslojs/encoding": "^1.1.0",
     "@prisma/client": "^6.3.1",
     "@sanity/image-url": "^1.1.0",
     "@sanity/vision": "^3.74.1",
+    "framer-motion": "^12.4.3",
     "lucide-react": "^0.474.0",
     "next": "15.1.6",
     "next-sanity": "^9.8.55",

@@ -6,6 +6,8 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import HeaderSearchBar from "./HeaderSearchBar";
+import { useCartStore } from "@/stores/cart-store";
+import { useShallow } from "zustand/shallow";
 
 const AnnouncementBar = () => {
 	return (
@@ -29,6 +31,14 @@ const Header = ({user, categorySelector}:HeaderProps) => {
 	const [isOpen, setIsOpen] = useState<boolean>(true);
 	const [prevScrollY, setPrevScrollY] = useState<number>(0);
 	const router = useRouter();
+
+	const { open, getTotalItems } = useCartStore(
+		useShallow((state) => ({
+			open: state.open,
+			getTotalItems: state.getTotalItems,
+		}))
+	);
+
 	useEffect(() => {
 		const handleScroll = () => {
 			const currentScrollY = window.scrollY;
@@ -67,10 +77,25 @@ const Header = ({user, categorySelector}:HeaderProps) => {
 							</button>
 
 							<nav className="hidden md:flex gap-4 lg:gap-6 text-sm font-medium ">
-								<Link className="hover:text-black "  href="#">Shop</Link>
-								<Link  className="hover:text-black " href="#">New Arrivals</Link>
+								<Link
+									className="hover:text-black "
+									href="#"
+								>
+									Shop
+								</Link>
+								<Link
+									className="hover:text-black "
+									href="#"
+								>
+									New Arrivals
+								</Link>
 								{categorySelector}
-								<Link  className="hover:text-black " href="#">Sale</Link>
+								<Link
+									className="hover:text-black "
+									href="#"
+								>
+									Sale
+								</Link>
 							</nav>
 						</div>
 
@@ -86,7 +111,7 @@ const Header = ({user, categorySelector}:HeaderProps) => {
 						<div className="flex flex-1 justify-end items-center gap-2 sm:gap-4 ">
 							<button className="text-gray-500 hover:text-gray-900 sm:block">
 								{/* <Search className="h-5 w-5 sm:h-6 sm:w-6" /> */}
-								<HeaderSearchBar/>
+								<HeaderSearchBar />
 							</button>
 
 							{user ? (
@@ -123,10 +148,13 @@ const Header = ({user, categorySelector}:HeaderProps) => {
 								</>
 							)}
 
-							<button className="text-gray-500  hover:text-gray-900 relative">
+							<button
+								onClick={() => open()}
+								className="text-gray-500  hover:text-gray-900 relative"
+							>
 								<ShoppingBag className="h-5 w-5  sm:h-6 sm:w-6" />
 								<span className="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] sm:text-xs w-3.5 h-3.5 sm-w-4 sm-h-4 flex items-center justify-center rounded-full p-2">
-									0
+									{getTotalItems()}
 								</span>
 							</button>
 						</div>
