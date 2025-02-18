@@ -1,5 +1,4 @@
 import prisma from "@/lib/prisma";
-import { error } from "console";
 import { createClient } from "next-sanity";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
