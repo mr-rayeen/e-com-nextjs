@@ -1,7 +1,7 @@
 "use client";
 import { logoutUser } from "@/actions/auth";
 import { User } from "@prisma/client";
-import { LogOut, MenuIcon, Search, ShoppingBag } from "lucide-react";
+import { LogOut, MenuIcon, ShoppingBag } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";

@@ -1,5 +1,4 @@
 import { getAllCategories } from '@/sanity/lib/client';
-import { ArrowDown, Expand, FolderDown, ListIcon, MoveDown } from 'lucide-react';
 import Link from 'next/link';
 import React from 'react'
 

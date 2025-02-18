@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from "react";
+import React from "react";
 import { Product } from "@/sanity.types"
 import { Loader2, ShoppingCart } from "lucide-react";
 import { formatPrice } from "@/lib/utils";
