@@ -6,7 +6,7 @@ import {
 } from "@oslojs/encoding";
 import { sha256 } from "@oslojs/crypto/sha2";
 
-import { Session } from "@prisma/client";
+// import { Session } from "@prisma/client";
 import { cookies } from "next/headers";
 import { cache } from "react";
 
@@ -17,6 +17,11 @@ export type SafeUser = {
 	sessions?:Session[]
 	cart?: []
 	// Add other fields as needed
+};
+export type Session = {
+	id: string;
+	userId: number;
+	expiresAt: Date;
 };
 
 export async function generateSessionToken(): Promise<string> {
