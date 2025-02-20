@@ -10,6 +10,15 @@ import type { User, Session } from "@prisma/client";
 import { cookies } from "next/headers";
 import { cache } from "react";
 
+export type SafeUser = {
+	id: number;
+	email: string;
+	createdAt: Date;
+	sessions?:Session[]
+	cart?: []
+	// Add other fields as needed
+};
+
 export async function generateSessionToken(): Promise<string> {
 	const bytes = new Uint8Array(20);
 	crypto.getRandomValues(bytes);
@@ -72,7 +81,7 @@ export async function invalidateSession(sessionId: string): Promise<void> {
 }
 
 export type SessionValidationResult =
-	| { session: Session; user: Omit<User, "password"> }
+	| { session: Session; user: SafeUser }
 	| { session: null; user: null };
 
 // Setting Cookies
